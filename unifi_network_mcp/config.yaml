@@ -1,0 +1,41 @@
+name: UniFi Network MCP
+version: 0.32.6-1
+slug: unifi_network_mcp
+description: UniFi Network MCP with authenticated HTTPS and read-only defaults
+url: https://github.com/davidharkis/ha-unifi-mcp
+arch: [amd64]
+startup: services
+boot: auto
+init: false
+image: ghcr.io/davidharkis/ha-unifi-network-mcp
+map:
+  - type: ssl
+    read_only: true
+ports:
+  9443/tcp: 9443
+ports_description:
+  9443/tcp: Authenticated HTTPS MCP endpoint
+options:
+  controller_host: ""
+  controller_port: 443
+  site: default
+  username: ""
+  password: ""
+  api_key: ""
+  verify_ssl: true
+  read_only: true
+  mcp_token: ""
+  certfile: fullchain.pem
+  keyfile: privkey.pem
+schema:
+  controller_host: str
+  controller_port: port
+  site: str
+  username: str
+  password: password
+  api_key: password
+  verify_ssl: bool
+  read_only: bool
+  mcp_token: password
+  certfile: str
+  keyfile: str
