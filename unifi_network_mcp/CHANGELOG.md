@@ -1,3 +1,7 @@
+## 0.32.6-2
+
+- Keep the upstream HTTP transport running when supervised by the TLS gateway.
+
 ## 0.32.6-1
 
 - Initial amd64 HAOS package for UniFi Network MCP 0.32.6.

@@ -91,7 +91,9 @@ async def main():
         if not path.resolve().is_relative_to(Path("/ssl")):
             raise ValueError("Certificate paths must stay inside /ssl")
     context.load_cert_chain(cert, key)
-    child = await asyncio.create_subprocess_exec("unifi-network-mcp", env=child_environment(options))
+    child = await asyncio.create_subprocess_exec(
+        "python", "/app/upstream_http.py", env=child_environment(options)
+    )
     runner = web.AppRunner(make_app(token), access_log=None)
     stop = asyncio.Event()
     loop = asyncio.get_running_loop()

@@ -4,7 +4,7 @@ LABEL org.opencontainers.image.description="Home Assistant UniFi Network MCP app
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt && pip check
-COPY gateway.py .
+COPY gateway.py upstream_http.py ./
 ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1
 EXPOSE 9443
 CMD ["python", "/app/gateway.py"]
