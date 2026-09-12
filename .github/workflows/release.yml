@@ -1,0 +1,59 @@
+name: Build and publish HA app
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 5 * * *'
+  push:
+    branches: [main]
+    paths: ['unifi_network_mcp/**', 'scripts/**', 'tests/**', '.github/workflows/**']
+permissions:
+  contents: write
+  packages: write
+concurrency:
+  group: release
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: pip install aiohttp pyyaml packaging
+      - name: Check stable upstream release
+        id: version
+        run: python scripts/update.py
+      - name: Test authentication, streaming, and read-only settings
+        run: python -m unittest discover -s tests -v
+      - name: Build candidate image
+        if: steps.version.outputs.changed == 'true' || github.event_name != 'schedule'
+        run: docker build --tag candidate unifi_network_mcp
+      - name: Check installed dependencies and server imports
+        if: steps.version.outputs.changed == 'true' || github.event_name != 'schedule'
+        run: |
+          docker run --rm --entrypoint pip candidate check
+          docker run --rm --entrypoint python candidate -c 'import unifi_network_mcp; import gateway'
+      - uses: docker/login-action@v3
+        if: steps.version.outputs.changed == 'true' || github.event_name != 'schedule'
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish image before advertising update
+        if: steps.version.outputs.changed == 'true' || github.event_name != 'schedule'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          IMAGE=ghcr.io/davidharkis/ha-unifi-network-mcp
+          docker tag candidate "$IMAGE:$VERSION"
+          docker push "$IMAGE:$VERSION"
+      - name: Advertise successful release to Home Assistant
+        if: steps.version.outputs.changed == 'true'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add unifi_network_mcp/config.yaml unifi_network_mcp/requirements.txt unifi_network_mcp/CHANGELOG.md
+          git commit -m 'Update UniFi MCP after successful build and checks'
+          git push
