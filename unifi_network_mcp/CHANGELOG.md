@@ -1,0 +1,5 @@
+## 0.32.6-1
+
+- Initial amd64 HAOS package for UniFi Network MCP 0.32.6.
+- HTTPS gateway with bearer authentication; backend restricted to loopback.
+- Read-only defaults and persistent HA app options.
