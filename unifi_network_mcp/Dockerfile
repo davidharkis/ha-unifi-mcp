@@ -1,0 +1,10 @@
+FROM python:3.13-slim
+LABEL org.opencontainers.image.source="https://github.com/davidharkis/ha-unifi-mcp"
+LABEL org.opencontainers.image.description="Home Assistant UniFi Network MCP app"
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt && pip check
+COPY gateway.py .
+ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1
+EXPOSE 9443
+CMD ["python", "/app/gateway.py"]
