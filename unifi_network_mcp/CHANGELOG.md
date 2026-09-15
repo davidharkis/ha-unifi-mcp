@@ -1,3 +1,7 @@
+## 0.32.7-1
+
+- Update UniFi Network MCP to 0.32.7.
+
 ## 0.32.6-2
 
 - Keep the upstream HTTP transport running when supervised by the TLS gateway.
