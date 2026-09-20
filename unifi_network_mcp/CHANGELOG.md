@@ -1,3 +1,7 @@
+## 0.32.10-1
+
+- Update UniFi Network MCP to 0.32.10.
+
 ## 0.32.8-1
 
 - Update UniFi Network MCP to 0.32.8.
