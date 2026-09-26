@@ -1,1 +1,1 @@
-unifi-network-mcp==0.32.10
+unifi-network-mcp==0.33.0
