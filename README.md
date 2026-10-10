@@ -1,25 +1,30 @@
 # UniFi Network MCP for Home Assistant OS
 
-Private Home Assistant app repository for amd64 hardware. Upstream: https://github.com/sirkirby/unifi-mcp
+Home Assistant app for amd64 hardware, using [UniFi MCP](https://github.com/sirkirby/unifi-mcp) by Chris Kirby.
 
 ## Status
 
-Package prepared locally. Publication, image build on Linux, HA installation, and live controller testing are not yet complete.
+Experimental. Automated gateway tests, Linux container builds, dependency checks, and GHCR publication pass. Installation on HAOS and use with a live UniFi controller have not been verified.
+
+## Installation
+
+Public installation requires both this repository and the GHCR package `ghcr.io/davidharkis/ha-unifi-network-mcp` to be public; their visibility is configured separately.
+
+1. On an amd64 HAOS host, open **Settings → Apps** (called **Add-ons** on older versions), then the app store.
+2. Open the store's menu → **Repositories** and add `https://github.com/davidharkis/ha-unifi-mcp`.
+3. Install **UniFi Network MCP**.
+4. Put a TLS certificate and its private key in HA's `/ssl` folder. Defaults are `fullchain.pem` and `privkey.pem`. Use a certificate trusted by your MCP client and covering the hostname you will connect to.
+5. In the app's Configuration tab, set the controller host, credentials, certificate filenames, and a randomly generated `mcp_token` of at least 32 characters. Keep `read_only: true` and use a dedicated read-only controller account.
+6. Start the app. Configure a Streamable HTTP MCP client with URL `https://<certificate-hostname>:9443/mcp` and header `Authorization: Bearer <mcp_token>`.
+
+See [configuration documentation](unifi_network_mcp/DOCS.md) for controller TLS, API keys, and backups. Keep the endpoint on a trusted network; no public internet exposure is required.
 
 ## Updates
 
-GitHub Actions checks PyPI daily for stable, non-yanked upstream releases. When there is a new version it runs gateway tests, builds the container, checks dependencies/imports, pushes the versioned image, and only then commits the HA version metadata. Home Assistant can subsequently offer its usual Update action. Installation remains manual in HA.
+GitHub Actions checks PyPI daily for stable, non-yanked upstream releases. It runs gateway tests, builds the container, checks dependencies/imports, pushes the versioned image, and only then commits the HA version metadata. Refresh the HA app store and use its Update action.
 
-Wrapper-only changes must increment the suffix in `config.yaml` (e.g. `0.32.6-2`). Do not overwrite a released version. Builds use a pinned UniFi MCP version; transitive dependencies currently resolve at build time, and the resulting image is reused by HA. Build checks do not prove compatibility with your live UniFi controller.
+Wrapper-only changes must increment the suffix in `config.yaml` (e.g. `0.37.0-2`). Do not overwrite a released version. The upstream version is pinned; transitive dependencies resolve at build time. Build checks do not prove compatibility with a live controller.
 
-## Private distribution
+## License
 
-Keep the GitHub repository and GHCR package private. HA requires read access to both. Private repository authentication must be verified against Supervisor before installation; do not paste tokens into issues, logs, or this repository. GHCR needs a read-packages credential configured in Supervisor. The GitHub connector alone does not supply HA's credentials.
-
-If private repository authentication cannot be configured reliably, stop and resolve distribution with the owner; do not make the repository public as a workaround.
-
-## Cost
-
-Uses standard Linux runners, a 25-minute job limit, one daily release check, no uploaded build artifacts and no paid larger runners. GitHub Free's private Actions allowance is shared with other repositories. Set a stop-usage budget in GitHub billing. GHCR is currently free under GitHub's published policy.
-
-See [app documentation](unifi_network_mcp/DOCS.md) for configuration.
+The Home Assistant wrapper is [MIT licensed](LICENSE). UniFi MCP is copyright Chris Kirby and distributed under its [MIT license](https://github.com/sirkirby/unifi-mcp/blob/main/LICENSE). Dependencies retain their own licenses.
