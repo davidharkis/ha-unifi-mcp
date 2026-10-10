@@ -4,7 +4,7 @@ Home Assistant app for amd64 hardware, using [UniFi MCP](https://github.com/sirk
 
 ## Status
 
-Experimental. Automated gateway tests, Linux container builds, dependency checks, and GHCR publication pass. Installation on HAOS and use with a live UniFi controller have not been verified.
+Experimental. Automated gateway tests, Linux container builds, dependency checks, and GHCR publication pass. The maintainer has tested installation on HAOS and use with a live UniFi controller.
 
 ## Installation
 
