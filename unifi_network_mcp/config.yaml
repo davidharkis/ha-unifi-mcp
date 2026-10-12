@@ -1,5 +1,5 @@
 name: UniFi Network MCP
-version: 0.37.0-1
+version: 0.37.1-1
 slug: unifi_network_mcp
 description: UniFi Network MCP with authenticated HTTPS and read-only defaults
 url: https://github.com/davidharkis/ha-unifi-mcp

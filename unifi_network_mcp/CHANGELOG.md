@@ -1,3 +1,7 @@
+## 0.37.1-1
+
+- Update UniFi Network MCP to 0.37.1.
+
 ## 0.37.0-1
 
 - Update UniFi Network MCP to 0.37.0.
