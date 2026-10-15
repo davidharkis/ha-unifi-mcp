@@ -1,4 +1,8 @@
 FROM python:3.13-slim
+ARG BUILD_VERSION
+LABEL io.hass.version="${BUILD_VERSION}" \
+      io.hass.type="app" \
+      io.hass.arch="amd64"
 LABEL org.opencontainers.image.source="https://github.com/davidharkis/ha-unifi-mcp"
 LABEL org.opencontainers.image.description="Home Assistant UniFi Network MCP app"
 WORKDIR /app
