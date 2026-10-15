@@ -12,4 +12,4 @@ Set `mcp_token` to a randomly generated secret of at least 32 characters. Client
 
 HA stores app options in its app data and preserves them across updates. Protect backups because they may include credentials. Make an app backup before updates; restore it from HA if a release fails. Restart the app after renewing/replacing its TLS certificate.
 
-GitHub Actions publishes successful upstream builds. Refresh the HA app store and use Update when a new version is offered. A failed build leaves HA's published version unchanged; inspect the repository's Actions page for the failure.
+GitHub Actions tests and publishes upstream updates, then opens a pull request for the version change. The update becomes available in Home Assistant after that pull request is merged. Refresh the HA app store and use Update when a new version is offered. A failed build leaves HA's published version unchanged; inspect the repository's Actions page for the failure.

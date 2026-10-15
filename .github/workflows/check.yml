@@ -1,0 +1,26 @@
+name: Validate app changes
+on:
+  pull_request:
+    paths: ['unifi_network_mcp/**', 'scripts/**', 'tests/**', '.github/workflows/**']
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: pip install aiohttp pyyaml packaging
+      - run: python -m unittest discover -s tests -v
+      - name: Build and check the configured image
+        run: |
+          VERSION=$(python -c "import yaml; print(yaml.safe_load(open('unifi_network_mcp/config.yaml'))['version'])")
+          docker build --build-arg BUILD_VERSION="$VERSION" --tag candidate unifi_network_mcp
+          docker run --rm --entrypoint pip candidate check
+          docker run --rm --entrypoint python candidate -c 'import unifi_network_mcp; import gateway'
+          test "$(docker inspect --format '{{ index .Config.Labels "io.hass.version" }}' candidate)" = "$VERSION"
+          test "$(docker inspect --format '{{ index .Config.Labels "io.hass.type" }}' candidate)" = app
+          test "$(docker inspect --format '{{ index .Config.Labels "io.hass.arch" }}' candidate)" = amd64
