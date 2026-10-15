@@ -1,14 +1,17 @@
 # UniFi Network MCP for Home Assistant OS
 
-Home Assistant app for amd64 hardware, using [UniFi MCP](https://github.com/sirkirby/unifi-mcp) by Chris Kirby.
+Connect MCP-compatible AI assistants to your UniFi Network controller through a Home Assistant app. Powered by [UniFi MCP](https://github.com/sirkirby/unifi-mcp) by Chris Kirby.
 
-## Status
+**Development:** [AI-assisted](#ai-assisted-development).
 
-Experimental. Automated gateway tests, Linux container builds, dependency checks, and GHCR publication pass. Tested on amd64 HAOS with a live UniFi controller.
+## Requirements
+
+- Home Assistant OS running on amd64 (x86-64) hardware.
+- A UniFi Network controller and a dedicated local account with read-only permissions.
+- A TLS certificate and private key for the hostname your MCP client will connect to.
+- An AI assistant or other MCP client that supports Streamable HTTP and bearer authentication.
 
 ## Installation
-
-Public installation requires both this repository and the GHCR package `ghcr.io/davidharkis/ha-unifi-network-mcp` to be public; their visibility is configured separately.
 
 1. On an amd64 HAOS host, open **Settings → Apps** (called **Add-ons** on older versions), then the app store.
 2. Open the store's menu → **Repositories** and add `https://github.com/davidharkis/ha-unifi-mcp`.
@@ -21,9 +24,13 @@ See [configuration documentation](unifi_network_mcp/DOCS.md) for controller TLS,
 
 ## Updates
 
-GitHub Actions checks PyPI daily for stable, non-yanked upstream releases. It runs gateway tests, builds the container, checks dependencies/imports, pushes the versioned image, and only then commits the HA version metadata. Refresh the HA app store and use its Update action.
+Refresh the Home Assistant app store and select **Update** when a new version is available. Create an app backup before updating so you can restore it if needed. Your app settings are preserved across updates.
 
-Wrapper-only changes must increment the suffix in `config.yaml` (e.g. `0.37.0-2`). Do not overwrite a released version. The upstream version is pinned; transitive dependencies resolve at build time. Build checks do not prove compatibility with a live controller.
+See the [changelog](unifi_network_mcp/CHANGELOG.md) for release details.
+
+## AI-assisted development
+
+This Home Assistant wrapper is developed and maintained with assistance from AI tools, including help with code, documentation, and review. Please report problems through [GitHub Issues](https://github.com/davidharkis/ha-unifi-mcp/issues).
 
 ## License
 
