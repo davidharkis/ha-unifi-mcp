@@ -2,8 +2,6 @@
 
 Connect MCP-compatible AI assistants to your UniFi Network controller through a Home Assistant app. Powered by [UniFi MCP](https://github.com/sirkirby/unifi-mcp) by Chris Kirby.
 
-**Development:** [AI-assisted](#ai-assisted-development).
-
 ## Prerequisites
 
 - Home Assistant OS running on amd64 (x86-64) hardware.
