@@ -4,7 +4,7 @@ Set the controller host (IP/hostname without a URL scheme), HTTPS port and site.
 
 Keep `read_only` enabled initially. Turning it off permits upstream mutation tools with preview/confirmation, subject to the controller user's own permissions.
 
-Set `mcp_token` to a randomly generated secret of at least 32 characters. Client requests must send `Authorization: Bearer <token>`. Do not share it or put it in a URL.
+Set `mcp_token` to a randomly generated secret of at least 32 characters with no whitespace. Client requests must send `Authorization: Bearer <token>`. Do not share it or put it in a URL.
 
 `certfile` and `keyfile` refer to existing certificate files in HA's `/ssl` folder. The default names are `fullchain.pem` and `privkey.pem`. The MCP connection URL must use a hostname covered by that certificate, on HTTPS port 9443 with path `/mcp`. Never expose the backend's port 3000. The app publishes only the authenticated HTTPS gateway.
 

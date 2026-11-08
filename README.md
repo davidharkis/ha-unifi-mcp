@@ -17,10 +17,12 @@ If suitable certificate files are already in `/ssl`, skip this setup and use the
 
 ## Installation
 
+The repository and prebuilt container image are public. No GitHub account, personal access token, or container-registry login is required to install the app.
+
 1. On an amd64 HAOS host, open **Settings → Apps** (called **Add-ons** on older versions), then the app store.
 2. Open the store's menu → **Repositories** and add `https://github.com/davidharkis/ha-unifi-mcp`.
 3. Install **UniFi Network MCP**.
-4. In the app's Configuration tab, set the controller host, credentials, certificate filenames, and a randomly generated `mcp_token` of at least 32 characters. Keep `read_only: true` and use a dedicated read-only controller account.
+4. In the app's Configuration tab, set the controller host, credentials, certificate filenames, and a randomly generated `mcp_token` of at least 32 characters with no whitespace. Keep `read_only: true` and use a dedicated read-only controller account.
 5. Start the app. Configure a Streamable HTTP MCP client with URL `https://<certificate-hostname>:9443/mcp` and header `Authorization: Bearer <mcp_token>`.
 
 See [configuration documentation](unifi_network_mcp/DOCS.md) for controller TLS, API keys, and backups. Keep the endpoint on a trusted network; no public internet exposure is required.
